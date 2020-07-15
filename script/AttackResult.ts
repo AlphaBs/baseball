@@ -1,5 +1,10 @@
-class AttackResult {
-    constructor(targetId: number, attackNumber: Array<number>, ball: number, strike: number) {
+export class AttackResult {
+    constructor(
+        targetId: number,
+        attackNumber: Array<number>,
+        ball: number,
+        strike: number
+    ) {
         this.target = targetId;
         this.number = attackNumber;
         this.ball = ball;

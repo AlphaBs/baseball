@@ -1,3 +1,6 @@
+import { IPlayer } from "../player/IPlayer";
+import { AttackResult } from "../AttackResult";
+
 export interface IGame {
     playerConnect(player: IPlayer);
     start();

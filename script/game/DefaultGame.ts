@@ -1,5 +1,7 @@
-import { IGame } from "./IGame"
-import { IPlayer } from "./../player/IPlayer"
+import { IGame } from "./IGame";
+import { IPlayer } from "./../player/IPlayer";
+import { AttackData } from "./../AttackData";
+import { AttackResult } from "./../AttackResult";
 
 class DefaultGame implements IGame {
     numberLength = 4;
@@ -9,17 +11,11 @@ class DefaultGame implements IGame {
         this.players.push(player);
     }
 
-    start() {
+    start() {}
 
-    }
+    stop() {}
 
-    stop() {
-
-    }
-
-    sendAttackResult(result: AttackResult) {
-
-    }
+    sendAttackResult(result: AttackResult) {}
 
     attack(attackData: AttackData): AttackResult {
         let targetPlayer: IPlayer = this.players[attackData.target];
@@ -36,10 +32,8 @@ class DefaultGame implements IGame {
                 let currentNumber: number = attackData.numbers[j];
 
                 if (checkTargetNumber == currentNumber) {
-                    if (i == j) 
-                        strike++;
-                    else
-                        ball++;
+                    if (i == j) strike++;
+                    else ball++;
                 }
             }
         }
@@ -52,15 +46,9 @@ class DefaultGame implements IGame {
         );
     }
 
-    sendNotice() {
+    sendNotice() {}
 
-    }
+    sendChat() {}
 
-    sendChat() {
-
-    }
-
-    receiveChat() {
-
-    }
+    receiveChat() {}
 }
