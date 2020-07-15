@@ -1,3 +1,3 @@
-interface IPlayer {
+export interface IPlayer {
     numbers: Array<number>;
 }

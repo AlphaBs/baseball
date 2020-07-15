@@ -1,4 +1,4 @@
-interface IGame {
+export interface IGame {
     playerConnect(player: IPlayer);
     start();
     stop();

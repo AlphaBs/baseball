@@ -1,3 +1,6 @@
+import { IGame } from "./IGame"
+import { IPlayer } from "./../player/IPlayer"
+
 class DefaultGame implements IGame {
     numberLength = 4;
     players: Array<IPlayer> = [];
