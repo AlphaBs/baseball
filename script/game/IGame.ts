@@ -6,7 +6,7 @@ export interface IGame {
     start();
     stop();
     sendAttackResult(result: AttackResult);
-    sendNotice(msg: string);
-    sendChat(msg: string);
+    sendNotice(msg: string, player: IPlayer);
+    sendChat(msg: string, player: IPlayer);
     receiveChat(msg: string);
 }
