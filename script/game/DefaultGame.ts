@@ -1,14 +1,17 @@
 import { IGame } from "./IGame";
-import { IPlayer } from "./../player/IPlayer";
-import { AttackData } from "./../AttackData";
-import { AttackResult } from "./../AttackResult";
+import { IPlayer } from "./IPlayer";
+import { AttackData } from "./AttackData";
+import { AttackResult } from "./AttackResult";
 import { Utils } from "./../Utils";
 
 class DefaultGame implements IGame {
+    constructor() {}
     numberLength: number = 4;
     players: Array<IPlayer> = [];
     turn: number = 0;
 
+    playing: boolean = false;
+    attackPlayer: number;
     playingCount: number = 0;
 
     playerConnect(player: IPlayer): void {
@@ -20,6 +23,8 @@ class DefaultGame implements IGame {
             this.sendNoticeToAll("2명 이상의 플레이어가 접속해야 합니다.");
             return;
         }
+        this.playing = true;
+        this.attackPlayer = -1;
         this.playingCount = this.players.length;
 
         this.sendNoticeToAll("게임 시작!");
@@ -42,28 +47,37 @@ class DefaultGame implements IGame {
             p.setMyNumber(input);
         });
 
-        let playing: boolean = true;
-        while (playing) {
+        while (this.playing) {
             this.turn++;
 
             for (let i = 0; i < this.players.length; i++) {
                 let currentPlayer = this.players[i];
                 if (!currentPlayer.playing) continue;
 
-                let attackData: AttackData = currentPlayer.requestAttackData();
-                let attackResult: AttackResult = this.attack(attackData);
-                this.sendAttackResult(attackResult);
+                this.attackPlayer = i;
+                currentPlayer.requestAttackData(
+                    this.players.length,
+                    this.numberLength
+                );
+            }
+        }
+    }
 
-                if (attackResult.strike == this.numberLength) {
-                    this.players[attackResult.target].lose();
-                    this.playingCount--;
+    receiveAttackData(requestPlayer: number, attackData: AttackData) {
+        if (this.attackPlayer != requestPlayer) return;
 
-                    if (this.playingCount < 2) {
-                        currentPlayer.win();
-                        playing = false;
-                        break;
-                    }
-                }
+        this.attackPlayer = -1;
+        // TODO: check targetPlayer is playing
+        let attackResult: AttackResult = this.attack(attackData);
+        this.sendAttackResult(attackResult);
+
+        if (attackResult.strike == this.numberLength) {
+            this.players[attackResult.target].lose();
+            this.playingCount--;
+
+            if (this.playingCount < 2) {
+                this.players[this.attackPlayer].win();
+                this.playing = false;
             }
         }
     }
